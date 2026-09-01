@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bowale Olufiade — Portfolio</title>
+<meta name="description" content="Bowale Olufiade — Management Information Systems student at the University of Houston. Experience, projects, research, and awards.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="frame">
+
+  <!-- LEFT RAIL / TOP BAR -->
+  <header class="rail">
+    <div class="rail-top">
+      <a href="#home" class="wordmark" data-nav="home">
+        <span class="wordmark-name">Bowale<br>Olufiade</span>
+        <span class="wordmark-role">MIS · Data · Research</span>
+      </a>
+    </div>
+
+    <nav class="tabs" aria-label="Portfolio sections">
+      <button class="tab is-active" data-target="home"><span class="tab-id">00</span>Home</button>
+      <button class="tab" data-target="experience"><span class="tab-id">01</span>Experience</button>
+      <button class="tab" data-target="projects"><span class="tab-id">02</span>Projects</button>
+      <button class="tab" data-target="personal"><span class="tab-id">03</span>Personal</button>
+      <button class="tab" data-target="research"><span class="tab-id">04</span>Research</button>
+      <button class="tab" data-target="awards"><span class="tab-id">05</span>Awards</button>
+      <button class="tab tab-resume" data-target="resume"><span class="tab-id">06</span>Résumé</button>
+    </nav>
+
+    <div class="rail-bottom">
+      <div class="rail-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="status-text">Open to opportunities</span>
+      </div>
+      <div class="rail-links" id="rail-links"><!-- injected: email / linkedin / github --></div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main" id="main">
+
+    <!-- HOME -->
+    <section class="view is-active" id="home" data-view="home">
+      <p class="eyebrow">00 / Home</p>
+      <h1 class="hero-title">Building the case with data, <em>before</em> building the argument.</h1>
+      <p class="hero-sub" id="hero-tagline">Management Information Systems student · University of Houston</p>
+
+      <div class="bio" id="bio-content"><!-- injected --></div>
+
+      <div class="hero-actions">
+        <a href="assets/resume.pdf" download class="btn btn-primary">Download résumé</a>
+        <a href="#" class="btn btn-ghost" id="email-cta">Get in touch</a>
+      </div>
+
+      <div class="record-strip" aria-label="Education">
+        <p class="strip-label">Education</p>
+        <div id="education-list" class="strip-list"><!-- injected --></div>
+      </div>
+
+      <div class="record-strip" aria-label="Skills">
+        <p class="strip-label">Skills</p>
+        <div id="skills-list" class="skills-groups"><!-- injected --></div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="view" id="experience" data-view="experience">
+      <p class="eyebrow">01 / Experience</p>
+      <h2 class="view-title">Experience</h2>
+      <p class="view-lede">Leadership and work roles, most recent first.</p>
+      <div class="record-list" id="experience-list"><!-- injected --></div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="view" id="projects" data-view="projects">
+      <p class="eyebrow">02 / Projects</p>
+      <h2 class="view-title">Projects</h2>
+      <p class="view-lede">Tools I built because I needed them — most are still in use.</p>
+      <div class="record-list" id="projects-list"><!-- injected --></div>
+    </section>
+
+    <!-- PERSONAL -->
+    <section class="view" id="personal" data-view="personal">
+      <p class="eyebrow">03 / Personal</p>
+      <h2 class="view-title">Personal</h2>
+      <div class="bio" id="personal-intro"><!-- injected --></div>
+      <div class="record-list" id="personal-list"><!-- injected --></div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section class="view" id="research" data-view="research">
+      <p class="eyebrow">04 / Research</p>
+      <h2 class="view-title">Research</h2>
+      <p class="view-lede">Where the critical-thinking habit started, and where I've put it to use.</p>
+      <div class="record-list" id="research-list"><!-- injected --></div>
+    </section>
+
+    <!-- AWARDS -->
+    <section class="view" id="awards" data-view="awards">
+      <p class="eyebrow">05 / Awards</p>
+      <h2 class="view-title">Honors &amp; Awards</h2>
+      <div class="record-list record-list--compact" id="awards-list"><!-- injected --></div>
+    </section>
+
+    <!-- RESUME -->
+    <section class="view" id="resume" data-view="resume">
+      <p class="eyebrow">06 / Résumé</p>
+      <h2 class="view-title">Résumé</h2>
+      <p class="view-lede" id="resume-updated">Current version, one click to download.</p>
+
+      <div class="resume-panel">
+        <div class="resume-preview">
+          <embed src="assets/resume.pdf" type="application/pdf" class="resume-embed" />
+          <p class="resume-fallback">Your browser can't preview PDFs inline — use the button to download instead.</p>
+        </div>
+        <div class="resume-actions">
+          <a href="assets/resume.pdf" download class="btn btn-primary">Download PDF</a>
+          <a href="assets/resume.pdf" target="_blank" rel="noopener" class="btn btn-ghost">Open in new tab</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
