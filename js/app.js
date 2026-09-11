@@ -361,10 +361,122 @@ function renderResume(data) {
    ========================================================================== */
 
 /**
- * Paper previews load only when opened. Eight embedded PDFs loading at once
- * would make the Research tab crawl, so each iframe is created on first click.
- * #toolbar=0 hides the built-in download/print buttons in Chrome and Edge.
+ * Paper previews.
+ *
+ * These used to be <iframe src="paper.pdf">, which works on desktop but
+ * breaks on mobile: iOS Safari and Android Chrome render only the first
+ * page of a PDF inside an iframe and refuse to scroll. Embedded PDFs are
+ * simply not scrollable on mobile — no CSS fixes it.
+ *
+ * So instead we render the PDF ourselves with PDF.js, page by page, onto
+ * canvases inside a normal scrolling div. A scrolling div works identically
+ * everywhere. It also means no browser toolbar, so the download and print
+ * buttons are gone in every browser rather than just Chrome and Edge.
+ *
+ * Pages render only as they scroll into view, so a 21-page paper doesn't
+ * allocate 21 canvases up front on a phone.
  */
+
+const PDFJS_VERSION = "3.11.174";
+const PDFJS_SRC = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.js`;
+const PDFJS_WORKER = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.js`;
+
+let pdfjsPromise = null;
+
+/** Loads PDF.js once, the first time a paper is opened. */
+function loadPdfJs() {
+  if (pdfjsPromise) return pdfjsPromise;
+  pdfjsPromise = new Promise((resolve, reject) => {
+    if (window.pdfjsLib) return resolve(window.pdfjsLib);
+    const s = document.createElement("script");
+    s.src = PDFJS_SRC;
+    s.onload = () => {
+      if (!window.pdfjsLib) return reject(new Error("pdf.js failed to initialise"));
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+      resolve(window.pdfjsLib);
+    };
+    s.onerror = () => reject(new Error("pdf.js failed to load"));
+    document.head.appendChild(s);
+  });
+  return pdfjsPromise;
+}
+
+/** Renders one page onto its canvas, sized to the container width. */
+async function renderPage(pdf, pageNum, holder, containerWidth) {
+  if (holder.dataset.rendered) return;
+  holder.dataset.rendered = "1";
+
+  const page = await pdf.getPage(pageNum);
+  const base = page.getViewport({ scale: 1 });
+  const scale = containerWidth / base.width;
+  // Cap the pixel ratio: 2x is sharp enough, and 3x on a phone wastes memory.
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const viewport = page.getViewport({ scale: scale * dpr });
+
+  const canvas = document.createElement("canvas");
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+  canvas.style.width = "100%";
+  canvas.style.height = "auto";
+
+  holder.innerHTML = "";
+  holder.appendChild(canvas);
+
+  await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+}
+
+async function openPaper(viewer, url) {
+  viewer.innerHTML = `<p class="paper-loading">Loading paper…</p>`;
+
+  let pdfjsLib;
+  try {
+    pdfjsLib = await loadPdfJs();
+  } catch (err) {
+    viewer.innerHTML = `<p class="paper-loading">The preview couldn't load. <a href="${url}" target="_blank" rel="noopener">Open the paper in a new tab</a> instead.</p>`;
+    return;
+  }
+
+  let pdf;
+  try {
+    pdf = await pdfjsLib.getDocument(url).promise;
+  } catch (err) {
+    viewer.innerHTML = `<p class="paper-loading">The preview couldn't load. <a href="${url}" target="_blank" rel="noopener">Open the paper in a new tab</a> instead.</p>`;
+    return;
+  }
+
+  viewer.innerHTML = "";
+  const width = viewer.clientWidth || 600;
+
+  // Placeholder per page, each sized to the real page aspect ratio so the
+  // scrollbar is correct before anything has rendered.
+  const first = await pdf.getPage(1);
+  const fv = first.getViewport({ scale: 1 });
+  const ratio = fv.height / fv.width;
+
+  const holders = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const holder = document.createElement("div");
+    holder.className = "pdf-page";
+    holder.style.paddingTop = `${ratio * 100}%`;
+    holder.dataset.page = String(i);
+    viewer.appendChild(holder);
+    holders.push(holder);
+  }
+
+  // Render pages as they approach the viewport.
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const holder = entry.target;
+      holder.style.paddingTop = "";
+      renderPage(pdf, Number(holder.dataset.page), holder, viewer.clientWidth || width);
+      io.unobserve(holder);
+    });
+  }, { root: viewer, rootMargin: "400px 0px" });
+
+  holders.forEach(h => io.observe(h));
+}
+
 function initPaperViewers() {
   document.addEventListener("click", e => {
     const btn = e.target.closest(".paper-toggle");
@@ -375,14 +487,12 @@ function initPaperViewers() {
 
     const opening = viewer.hasAttribute("hidden");
 
-    if (opening && !viewer.dataset.loaded) {
-      const url = btn.dataset.paper + "#toolbar=0&navpanes=0&scrollbar=1&view=FitH";
-      viewer.innerHTML = `<iframe src="${url}" title="Paper preview" loading="lazy"></iframe>`;
-      viewer.dataset.loaded = "1";
-    }
-
     if (opening) {
       viewer.removeAttribute("hidden");
+      if (!viewer.dataset.loaded) {
+        viewer.dataset.loaded = "1";
+        openPaper(viewer, btn.dataset.paper);
+      }
     } else {
       viewer.setAttribute("hidden", "");
     }
