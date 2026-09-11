@@ -1,12 +1,3 @@
-/**
- * APP
- * -----------------------------------------------------------------------
- * Loads content from Supabase if configured, otherwise renders the
- * fallback data in js/data.js so the site is never blank. Every render
- * function takes plain objects, so it doesn't matter which source they
- * came from.
- * -----------------------------------------------------------------------
- */
 
 let sb = null;
 if (typeof window.supabase !== "undefined" && IS_SUPABASE_CONFIGURED) {
@@ -149,7 +140,7 @@ function renderHome(data) {
 
   const railLinks = document.getElementById("rail-links");
   railLinks.innerHTML = [
-    data.profile.email ? `<a href="mailto:${esc(data.profile.email)}">${esc(data.profile.email)}</a>` : "",
+    data.profile.email ? `<a href="mailto:${esc(data.profile.email)}"><span class="email-full">${esc(data.profile.email)}</span><span class="email-short">Email</span></a>` : "",
     data.profile.linkedin_url ? `<a href="${esc(data.profile.linkedin_url)}" target="_blank" rel="noopener">LinkedIn ↗</a>` : "",
     data.profile.github_url ? `<a href="${esc(data.profile.github_url)}" target="_blank" rel="noopener">GitHub ↗</a>` : "",
   ].join("");
@@ -360,22 +351,6 @@ function renderResume(data) {
    INTERACTIONS — paper viewers + image lightbox
    ========================================================================== */
 
-/**
- * Paper previews.
- *
- * These used to be <iframe src="paper.pdf">, which works on desktop but
- * breaks on mobile: iOS Safari and Android Chrome render only the first
- * page of a PDF inside an iframe and refuse to scroll. Embedded PDFs are
- * simply not scrollable on mobile — no CSS fixes it.
- *
- * So instead we render the PDF ourselves with PDF.js, page by page, onto
- * canvases inside a normal scrolling div. A scrolling div works identically
- * everywhere. It also means no browser toolbar, so the download and print
- * buttons are gone in every browser rather than just Chrome and Edge.
- *
- * Pages render only as they scroll into view, so a 21-page paper doesn't
- * allocate 21 canvases up front on a phone.
- */
 
 const PDFJS_VERSION = "3.11.174";
 const PDFJS_SRC = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.js`;
@@ -532,6 +507,32 @@ function initLightbox() {
   });
 }
 
+/**
+ * On mobile the tab strip scrolls sideways, which isn't obvious. A fading
+ * arrow sits over the right edge to signal there's more; it disappears once
+ * you've reached the last tab and comes back if you scroll away from it.
+ */
+function initTabScrollHint() {
+  const wrap = document.querySelector(".tabs-wrap");
+  const tabs = document.getElementById("tabs");
+  if (!wrap || !tabs) return;
+
+  function update() {
+    // No overflow at all (desktop, or a wide phone) — nothing to hint at.
+    const scrollable = tabs.scrollWidth - tabs.clientWidth;
+    if (scrollable <= 4) {
+      wrap.classList.add("is-end");
+      return;
+    }
+    const atEnd = tabs.scrollLeft >= scrollable - 4;
+    wrap.classList.toggle("is-end", atEnd);
+  }
+
+  tabs.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+}
+
 /* ==========================================================================
    NAV / TABS
    ========================================================================== */
@@ -565,6 +566,7 @@ function initNav() {
    ========================================================================== */
 (async function boot() {
   initNav();
+  initTabScrollHint();
   initPaperViewers();
   initLightbox();
   const data = await loadAllData();
