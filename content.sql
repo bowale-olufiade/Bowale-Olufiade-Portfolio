@@ -30,12 +30,12 @@ insert into public.skills (category, item, order_index) values
   ('Data & Analytics', 'Tableau',                            40),
   ('Data & Analytics', 'Power BI (DAX, Power Query, API)',   50),
   ('Data & Analytics', 'Excel (PivotTables, Charts)',        60),
-  ('Tools',            'Microsoft Office Suite',             70);
-  ('Professional',     'Data Analysis',                      80);
-  ('Professional',     'Research',                           90);
-  ('Professional',     'Problem-Solving',                    100);
-  ('Professional',     'Time Management',                    110);
-  ('Professional',     'Leadership',                         120);
+  ('Tools',            'Microsoft Office Suite',             70),
+  ('Professional',     'Data Analysis',                      80),
+  ('Professional',     'Research',                           90),
+  ('Professional',     'Problem-Solving',                    100),
+  ('Professional',     'Time Management',                    110),
+  ('Professional',     'Leadership',                         120),
   ('Professional',     'Organization',                       130);
 
 -- ---- EXPERIENCE ----------------------------------------------------------
