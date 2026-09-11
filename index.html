@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bowale Olufiade — Portfolio</title>
-<meta name="description" content="Bowale Olufiade — Management Information Systems student at the University of Houston. Experience, projects, research, and awards.">
+<meta name="description" content="Bowale Olufiade — aspiring Business/Data Analyst and Management Information Systems student at the University of Houston. Experience, projects, research, and awards.">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,10 +30,9 @@
       <button class="tab is-active" data-target="home"><span class="tab-id">00</span>Home</button>
       <button class="tab" data-target="experience"><span class="tab-id">01</span>Experience</button>
       <button class="tab" data-target="projects"><span class="tab-id">02</span>Projects</button>
-      <button class="tab" data-target="personal"><span class="tab-id">03</span>Personal</button>
-      <button class="tab" data-target="research"><span class="tab-id">04</span>Research</button>
-      <button class="tab" data-target="awards"><span class="tab-id">05</span>Awards</button>
-      <button class="tab tab-resume" data-target="resume"><span class="tab-id">06</span>Résumé</button>
+      <button class="tab" data-target="research"><span class="tab-id">03</span>Research</button>
+      <button class="tab" data-target="awards"><span class="tab-id">04</span>Awards</button>
+      <button class="tab tab-resume" data-target="resume"><span class="tab-id">05</span>Résumé</button>
     </nav>
 
     <div class="rail-bottom">
@@ -51,14 +50,18 @@
     <!-- HOME -->
     <section class="view is-active" id="home" data-view="home">
       <p class="eyebrow">00 / Home</p>
-      <h1 class="hero-title">Building systems that makes work <em>much more </em>efficient</h1>
-      <p class="hero-sub" id="hero-tagline">Management Information Systems student · University of Houston</p>
 
-      <div class="bio" id="bio-content"><!-- injected --></div>
-
-      <div class="hero-actions">
-        <a href="assets/resume.pdf" download class="btn btn-primary">Download résumé</a>
-        <a href="#" class="btn btn-ghost" id="email-cta">Get in touch</a>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1 class="hero-title">Building systems that makes work <em>much more </em>efficient</h1>
+          <p class="hero-sub" id="hero-tagline">Aspiring Business/Data Analyst</p>
+          <div class="bio" id="bio-content"><!-- injected --></div>
+          <div class="hero-actions">
+            <a href="assets/resume.pdf" download class="btn btn-primary">Download résumé</a>
+            <a href="#" class="btn btn-ghost" id="email-cta">Get in touch</a>
+          </div>
+        </div>
+        <figure class="hero-photo" id="hero-photo"><!-- injected --></figure>
       </div>
 
       <div class="record-strip" aria-label="Education">
@@ -84,36 +87,29 @@
     <section class="view" id="projects" data-view="projects">
       <p class="eyebrow">02 / Projects</p>
       <h2 class="view-title">Projects</h2>
-      <p class="view-lede">Tools I built because I needed them — most are still in use.</p>
-      <div class="record-list" id="projects-list"><!-- injected --></div>
-    </section>
-
-    <!-- PERSONAL -->
-    <section class="view" id="personal" data-view="personal">
-      <p class="eyebrow">03 / Personal</p>
-      <h2 class="view-title">Personal</h2>
-      <div class="bio" id="personal-intro"><!-- injected --></div>
-      <div class="record-list" id="personal-list"><!-- injected --></div>
+      <p class="view-lede">Capstone work, and tools I built because I needed them — most are still in use.</p>
+      <div id="projects-groups"><!-- injected --></div>
     </section>
 
     <!-- RESEARCH -->
     <section class="view" id="research" data-view="research">
-      <p class="eyebrow">04 / Research</p>
+      <p class="eyebrow">03 / Research</p>
       <h2 class="view-title">Research</h2>
       <p class="view-lede">Where the critical-thinking habit started, and where I've put it to use.</p>
       <div class="record-list" id="research-list"><!-- injected --></div>
+      <p class="research-footnote" id="research-footnote"><!-- injected --></p>
     </section>
 
     <!-- AWARDS -->
     <section class="view" id="awards" data-view="awards">
-      <p class="eyebrow">05 / Awards</p>
+      <p class="eyebrow">04 / Awards</p>
       <h2 class="view-title">Honors &amp; Awards</h2>
-      <div class="record-list record-list--compact" id="awards-list"><!-- injected --></div>
+      <div id="awards-groups"><!-- injected --></div>
     </section>
 
     <!-- RESUME -->
     <section class="view" id="resume" data-view="resume">
-      <p class="eyebrow">06 / Résumé</p>
+      <p class="eyebrow">05 / Résumé</p>
       <h2 class="view-title">Résumé</h2>
       <p class="view-lede" id="resume-updated">Current version, one click to download.</p>
 
@@ -130,6 +126,12 @@
     </section>
 
   </main>
+</div>
+
+<!-- Lightbox for project / capstone images -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close image">&times;</button>
+  <img class="lightbox-img" id="lightbox-img" alt="">
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
