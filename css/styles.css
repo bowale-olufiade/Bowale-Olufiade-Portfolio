@@ -606,32 +606,93 @@ body::before{
     top: 0;
     z-index: 10;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 20px;
+    padding: 12px 18px 0;
     border-right: none;
     border-bottom: 1px solid var(--border);
     background: rgba(6,11,19,.92);
     backdrop-filter: blur(10px);
   }
-  .rail-top{ flex-shrink: 0; }
+
+  /* Row 1: wordmark left, contact right. Row 2: the scrolling tab strip. */
+  .rail-top{ flex-shrink: 0; order: 1; }
+  .rail-bottom{
+    display: flex;
+    order: 2;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    border-top: none;
+  }
+  .tabs-wrap{ order: 3; flex: 0 0 100%; margin: 10px 0 0; }
+
   .wordmark-name{ font-size: 1.1rem; }
   .wordmark-role{ display:none; }
+
+  .rail-status{ margin-bottom: 0; font-size: .66rem; }
+  .rail-links{ flex-direction: row; gap: 12px; }
+  .rail-links a{ font-size: .74rem; }
+  .email-full{ display: none; }
+  .email-short{ display: inline; }
+
   .tabs{
     flex-direction: row;
-    margin: 0 12px;
+    margin: 0;
     overflow-x: auto;
     gap: 4px;
     scrollbar-width: none;
+    padding-right: 34px;
   }
   .tabs::-webkit-scrollbar{ display:none; }
   .tab{ flex-shrink: 0; padding: 8px 10px; border-left: none; border-bottom: 2px solid transparent; }
   .tab.is-active{ border-left-color: transparent; border-bottom-color: var(--brass); }
   .tab-resume{ margin-top: 0; }
-  .rail-bottom{ display:none; }
   .main{ padding: 44px 22px 100px; }
+
+  /* Arrow + fade showing there are more tabs off to the right */
+  .tabs-hint{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 44px;
+    padding-right: 6px;
+    pointer-events: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--brass);
+    background: linear-gradient(90deg, rgba(6,11,19,0) 0%, rgba(6,11,19,.92) 55%);
+    opacity: 1;
+    transition: opacity var(--dur) var(--ease);
+    animation: nudge 1.8s var(--ease) infinite;
+  }
+  /* Fades out once the last tab is reached */
+  .tabs-wrap.is-end .tabs-hint{ opacity: 0; animation: none; }
+}
+
+/* ---- Tab scroll hint (desktop: hidden; the rail is vertical there) ---- */
+.tabs-wrap{ position: relative; flex: 1; min-width: 0; margin: 0; }
+.tabs-hint{ display: none; }
+.email-short{ display: none; }
+
+@keyframes nudge{
+  0%, 100%{ transform: translateX(0); }
+  50%     { transform: translateX(3px); }
+}
+@media (prefers-reduced-motion: reduce){
+  .tabs-hint{ animation: none; }
 }
 
 @media (max-width: 480px){
   .tab span.tab-id{ display:none; }
+  .rail-status #status-text{ display: none; }
+  .rail-links a{ font-size: .72rem; }
+  .rail-links{ gap: 10px; }
 }
