@@ -44,6 +44,12 @@ insert into public.skills (category, item, order_index) values
   ('Data & Analytics', 'Power BI (DAX, Power Query, API)',   50),
   ('Data & Analytics', 'Excel (PivotTables, Charts)',        60),
   ('Tools',            'Microsoft Office Suite',             70);
+  ('Professional',     'Data Analysis',                      80);
+  ('Professional',     'Research',                           90);
+  ('Professional',     'Problem-Solving',                    100);
+  ('Professional',     'Time Management',                    110);
+  ('Professional',     'Leadership',                         120);
+  ('Professional',     'Organization',                       130);
 
 -- ---- EXPERIENCE ----------------------------------------------------------
 delete from public.experience;
@@ -94,6 +100,19 @@ Worked alongside 9 lead partners while serving as a liaison between students and
 -- Third bullet.',
 --   40
 -- );
+
+insert into public.experience (title, org, location, start_date, end_date, current, bullets, order_index) values
+  (
+    'Marching Band Drum Technician',
+    'Cypress Park High School',
+    'Cypress, TX',
+    'Junw 2022', 'Mar 2025', false,
+    'Collaborated with the Band Director to train and develop a drumline of 9th–12th grade students, improving performance quality and consistency.
+Instructed students in percussion techniques, fostering skill development in a high-performance environment.
+Prepared students for regional, state, and national-level performances, contributing to competitive readiness.',
+  40
+  );
+  
 
 -- ---- PROJECTS ------------------------------------------------------------
 delete from public.projects;
@@ -252,10 +271,11 @@ Recipient of the Jim Brown Political Science Scholar Award, 2025',
 -- if any are wrong, and add any that are missing.
 delete from public.awards;
 insert into public.awards (title, org, term, group_label, order_index) values
-  ('Jim Brown Political Science Scholar Award', 'Lone Star College-CyFair', '2025', 'College', 10),
-  ('Honors Chancellor Fellows', 'Lone Star College', '2023 – 2025', 'College', 20),
-  ('President''s List', 'Lone Star College-CyFair', '', 'College', 30),
-  ('Dean''s List', 'Lone Star College-CyFair', '', 'College', 40),
-  ('Transfer Excellence Scholarship', 'University of Houston', '', 'College', 50),
-  ('Distinguished Honor Roll', 'Cypress Park High School — Top 10% of class', '', 'High School', 60),
-  ('Most Outstanding Percussionist', 'CyPark Marching Band', '', 'High School', 70);
+  ('Spring 2026 Dean''s List', 'University of Houston', '', 'College', 10),
+  ('Fall 2025 Dean''s List', 'University of Houston', '', 'College', 20),
+  ('Transfer Excellence Scholarship', 'University of Houston', '', 'College', 30),
+  ('Jim Brown Political Science Scholar Award', 'Lone Star College-CyFair', '2025', 'College', 40),
+  ('Spring 2025 President''s List', 'Lone Star College-CyFair', '', 'College', 50),
+  ('Honors Chancellor Fellows', 'Lone Star College', '2023 – 2025', 'College', 60),
+  ('Distinguished Honor Roll', 'Cypress Park High School — Top 10% of class', '', 'High School', 70),
+  ('Most Outstanding Percussionist', 'CyPark Marching Band', '', 'High School', 80);
