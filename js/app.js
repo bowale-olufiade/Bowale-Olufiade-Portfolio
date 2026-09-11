@@ -351,6 +351,22 @@ function renderResume(data) {
    INTERACTIONS — paper viewers + image lightbox
    ========================================================================== */
 
+/**
+ * Paper previews.
+ *
+ * These used to be <iframe src="paper.pdf">, which works on desktop but
+ * breaks on mobile: iOS Safari and Android Chrome render only the first
+ * page of a PDF inside an iframe and refuse to scroll. Embedded PDFs are
+ * simply not scrollable on mobile — no CSS fixes it.
+ *
+ * So instead we render the PDF ourselves with PDF.js, page by page, onto
+ * canvases inside a normal scrolling div. A scrolling div works identically
+ * everywhere. It also means no browser toolbar, so the download and print
+ * buttons are gone in every browser rather than just Chrome and Edge.
+ *
+ * Pages render only as they scroll into view, so a 21-page paper doesn't
+ * allocate 21 canvases up front on a phone.
+ */
 
 const PDFJS_VERSION = "3.11.174";
 const PDFJS_SRC = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.js`;
@@ -508,6 +524,70 @@ function initLightbox() {
 }
 
 /**
+ * On mobile the contact block belongs at the bottom of the page, not squeezed
+ * into the top bar next to the tabs. CSS alone can't do that — the element
+ * lives inside the header in the markup — so we physically move the node to
+ * the end of the page below 980px and move it back above that.
+ */
+function initRailPlacement() {
+  const rail = document.querySelector(".rail");
+  const frame = document.querySelector(".frame");
+  const bottom = document.querySelector(".rail-bottom");
+  if (!rail || !frame || !bottom) return;
+
+  const MOBILE = "(max-width: 980px)";
+  let placed = null;
+
+  function isMobile() {
+    if (typeof window.matchMedia === "function") return window.matchMedia(MOBILE).matches;
+    return window.innerWidth <= 980;
+  }
+
+  function place() {
+    if (isMobile() && placed !== "footer") {
+      frame.appendChild(bottom);      // last thing on the page
+      placed = "footer";
+    } else if (!isMobile() && placed !== "rail") {
+      rail.appendChild(bottom);       // back to the bottom of the side rail
+      placed = "rail";
+    }
+  }
+
+  place();
+  window.addEventListener("resize", place);
+}
+
+/**
+ * The sticky top bar costs real estate on a small screen, so it tucks away
+ * when you scroll down and comes back the moment you scroll up — the pattern
+ * most mobile apps use. It always returns at the top of the page.
+ */
+function initRailAutoHide() {
+  const rail = document.querySelector(".rail");
+  if (!rail) return;
+
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      const goingDown = y > lastY;
+      // Ignore tiny movements so it doesn't flicker, and never hide near the top.
+      if (Math.abs(y - lastY) > 6) {
+        rail.classList.toggle("is-tucked", goingDown && y > 120);
+        lastY = y;
+      }
+      ticking = false;
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+}
+
+/**
  * On mobile the tab strip scrolls sideways, which isn't obvious. A fading
  * arrow sits over the right edge to signal there's more; it disappears once
  * you've reached the last tab and comes back if you scroll away from it.
@@ -544,6 +624,8 @@ function initNav() {
     tabs.forEach(t => t.classList.toggle("is-active", t.dataset.target === target));
     views.forEach(v => v.classList.toggle("is-active", v.id === target));
     window.scrollTo({ top: 0, behavior: "auto" });
+    const rail = document.querySelector(".rail");
+    if (rail) rail.classList.remove("is-tucked");
     if (updateHash) history.replaceState(null, "", `#${target}`);
   }
 
@@ -566,6 +648,8 @@ function initNav() {
    ========================================================================== */
 (async function boot() {
   initNav();
+  initRailPlacement();
+  initRailAutoHide();
   initTabScrollHint();
   initPaperViewers();
   initLightbox();
