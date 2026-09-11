@@ -228,6 +228,35 @@ body::before{
 .bio p{ margin: 0 0 16px; color: var(--paper); max-width: 62ch; }
 .bio p:last-child{ margin-bottom: 0; }
 
+/* ---- Home hero: copy + portrait ---- */
+.hero-grid{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 240px;
+  gap: 44px;
+  align-items: start;
+}
+.hero-copy{ min-width: 0; }
+.hero-photo{
+  margin: 6px 0 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--harbor);
+  position: relative;
+}
+.hero-photo::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(6,11,19,0) 55%, rgba(6,11,19,.35));
+  pointer-events:none;
+}
+.hero-photo img{ width:100%; height:auto; display:block; }
+
+@media (max-width: 860px){
+  .hero-grid{ grid-template-columns: 1fr; gap: 28px; }
+  .hero-photo{ max-width: 200px; order: -1; }
+}
+
 .hero-actions{ display:flex; gap: 14px; margin: 36px 0 56px; flex-wrap: wrap; }
 .btn{
   display:inline-flex;
@@ -376,6 +405,182 @@ body::before{
 @media (max-width: 760px){
   .resume-panel{ grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   GROUP SUBHEADERS (Projects: Capstone / Technical · Awards: College / High School)
+   ========================================================================== */
+.group{ margin-bottom: 8px; }
+.group + .group{ margin-top: 52px; }
+.group-head{
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.group-head::after{
+  content:"";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--border-brt);
+  opacity: .5;
+}
+
+/* ==========================================================================
+   PROJECT / CAPSTONE IMAGERY
+   ========================================================================== */
+.record-shots{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.shot{
+  all: unset;
+  cursor: zoom-in;
+  flex: 0 1 auto;
+  width: calc(50% - 5px);
+  max-width: 260px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--harbor);
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.shot:hover{ border-color: var(--border-brt); transform: translateY(-2px); }
+.shot img{
+  width: 100%;
+  height: 148px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+.record-shots--single .shot{ width: 100%; max-width: 340px; }
+
+@media (max-width: 560px){
+  .shot{ width: 100%; max-width: none; }
+}
+
+/* ==========================================================================
+   RESEARCH
+   ========================================================================== */
+.research-sub{
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  color: var(--signal-brt);
+  margin-top: 4px;
+  letter-spacing: .02em;
+}
+.research-abstract{
+  color: var(--mist);
+  margin: 12px 0 0;
+  max-width: 62ch;
+}
+.research-abstract-label{
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--mist);
+  opacity: .75;
+  margin: 14px 0 4px;
+}
+.research-presented{
+  margin: 14px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: .9rem;
+  color: var(--paper);
+}
+.research-presented li::marker{ color: var(--brass); }
+
+.paper-toggle{
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: .86rem;
+  font-weight: 600;
+  color: var(--brass);
+  border-bottom: 1px solid var(--border-brt);
+  padding-bottom: 1px;
+  transition: color var(--dur) var(--ease);
+}
+.paper-toggle:hover{ color: var(--brass-soft); }
+.paper-toggle .chev{ font-family: var(--font-mono); font-size: .8rem; }
+
+.paper-viewer{
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--harbor);
+  height: 560px;
+}
+.paper-viewer iframe{ width: 100%; height: 100%; border: none; display: block; }
+.paper-viewer-note{
+  font-size: .78rem;
+  color: var(--mist);
+  margin: 8px 0 0;
+}
+
+.research-footnote{
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+  font-size: .86rem;
+  color: var(--mist);
+  max-width: 62ch;
+}
+.research-footnote a{ color: var(--brass); }
+.research-footnote a:hover{ color: var(--brass-soft); }
+
+@media (max-width: 640px){
+  .paper-viewer{ height: 420px; }
+}
+
+/* ==========================================================================
+   LIGHTBOX
+   ========================================================================== */
+.lightbox{
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(6,11,19,.94);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.lightbox[hidden]{ display: none; }
+.lightbox-img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.lightbox-close{
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  top: 18px;
+  right: 26px;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--mist);
+  transition: color var(--dur) var(--ease);
+}
+.lightbox-close:hover{ color: var(--brass); }
 
 /* ==========================================================================
    RESPONSIVE — rail collapses to a sticky top bar under ~980px
