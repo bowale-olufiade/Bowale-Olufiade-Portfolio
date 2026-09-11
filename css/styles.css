@@ -600,68 +600,73 @@ body::before{
    ========================================================================== */
 @media (max-width: 980px){
   .frame{ flex-direction: column; }
+
+  /* Compact top bar: one row with the name, one row of tabs. Nothing else. */
   .rail{
     position: sticky;
     height: auto;
+    min-height: 0;
     top: 0;
     z-index: 10;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 18px 0;
+    padding: 8px 16px 0;
     border-right: none;
     border-bottom: 1px solid var(--border);
-    background: rgba(6,11,19,.92);
-    backdrop-filter: blur(10px);
-  }
-
-  /* Row 1: wordmark. Row 2: the scrolling tab strip. Contact moves to a
-     fixed bar at the bottom of the screen (below). */
-  .rail-top{ flex-shrink: 0; order: 1; }
-  /* Contact bar: pinned to the bottom of the screen, like the desktop rail.
-     Taken out of the header flow entirely so the top bar stays uncluttered. */
-  .rail-bottom{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 20;
-    margin: 0;
-    padding: 10px 18px calc(10px + env(safe-area-inset-bottom, 0px));
-    border-top: 1px solid var(--border);
     background: rgba(6,11,19,.94);
     backdrop-filter: blur(10px);
+    transition: transform .28s var(--ease);
   }
-  .tabs-wrap{ order: 2; flex: 0 0 100%; margin: 10px 0 0; }
+  /* Slides out of the way when scrolling down, returns on scroll up. */
+  .rail.is-tucked{ transform: translateY(-100%); }
 
-  .wordmark-name{ font-size: 1.1rem; }
-  .wordmark-role{ display:none; }
+  .rail-top{ flex-shrink: 0; order: 1; }
+  .wordmark-name{ font-size: .92rem; line-height: 1.15; }
+  .wordmark-name br{ display: none; }
+  .wordmark-role{ display: none; }
 
-  .rail-status{ margin-bottom: 0; font-size: .66rem; }
-  .rail-links{ flex-direction: row; gap: 12px; }
-  .rail-links a{ font-size: .74rem; }
-  .email-full{ display: inline; }
-  .email-short{ display: none; }
-
+  .tabs-wrap{ order: 2; flex: 0 0 100%; margin: 6px 0 0; }
   .tabs{
     flex-direction: row;
     margin: 0;
     overflow-x: auto;
-    gap: 4px;
+    gap: 2px;
     scrollbar-width: none;
     padding-right: 34px;
   }
   .tabs::-webkit-scrollbar{ display:none; }
-  .tab{ flex-shrink: 0; padding: 8px 10px; border-left: none; border-bottom: 2px solid transparent; }
+  .tab{
+    flex-shrink: 0;
+    padding: 6px 9px;
+    font-size: .82rem;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+  }
   .tab.is-active{ border-left-color: transparent; border-bottom-color: var(--brass); }
   .tab-resume{ margin-top: 0; }
-  .main{ padding: 44px 22px calc(96px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Contact block becomes a real footer at the end of the page.
+     app.js physically moves this element out of the header on mobile. */
+  .rail-bottom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+    padding: 30px 22px calc(34px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(6,11,19,0), rgba(14,26,44,.45));
+  }
+  .rail-status{ margin-bottom: 0; font-size: .7rem; }
+  .rail-links{ flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 18px; }
+  .rail-links a{ font-size: .82rem; }
+  .email-full{ display: inline; }
+  .email-short{ display: none; }
+
+  .main{ padding: 32px 22px 48px; }
 
   /* Arrow + fade showing there are more tabs off to the right */
   .tabs-hint{
@@ -672,18 +677,17 @@ body::before{
     top: 0;
     bottom: 0;
     right: 0;
-    width: 44px;
-    padding-right: 6px;
+    width: 40px;
+    padding-right: 4px;
     pointer-events: none;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     line-height: 1;
     color: var(--brass);
-    background: linear-gradient(90deg, rgba(6,11,19,0) 0%, rgba(6,11,19,.92) 55%);
+    background: linear-gradient(90deg, rgba(6,11,19,0) 0%, rgba(6,11,19,.94) 55%);
     opacity: 1;
     transition: opacity var(--dur) var(--ease);
     animation: nudge 1.8s var(--ease) infinite;
   }
-  /* Fades out once the last tab is reached */
   .tabs-wrap.is-end .tabs-hint{ opacity: 0; animation: none; }
 }
 
@@ -698,13 +702,12 @@ body::before{
 }
 @media (prefers-reduced-motion: reduce){
   .tabs-hint{ animation: none; }
+  .rail{ transition: none; }
 }
 
 @media (max-width: 480px){
   .tab span.tab-id{ display:none; }
-  .rail-bottom{ gap: 12px; }
-  .rail-links{ gap: 14px; }
-  .rail-links a{ font-size: .74rem; }
-  .email-full{ display: none; }
-  .email-short{ display: inline; }
+  .tab{ font-size: .8rem; padding: 6px 8px; }
+  .rail-links{ gap: 16px; }
+  .rail-links a{ font-size: .78rem; }
 }
