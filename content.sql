@@ -1,16 +1,3 @@
--- =========================================================================
--- CONTENT — every row for the updated portfolio.
---
--- Run this AFTER migration.sql (or after schema.sql).
--- It clears each content table and reinserts everything, so it is safe to
--- re-run and easy to tweak: edit a value below, run the whole file again.
---
--- NOTE: this deletes existing rows in these tables. If you have content in
--- Supabase you want to keep that isn't below, copy it out first.
--- =========================================================================
-
--- ---- PROFILE -------------------------------------------------------------
--- Replace the email / linkedin / github values if any are out of date.
 delete from public.profile;
 insert into public.profile (id, name, tagline, location, email, linkedin_url, github_url, resume_updated, photo_url, bio)
 values (
@@ -84,22 +71,6 @@ Mentored peer apprentices, strengthening their leadership skills and engagement 
 Worked alongside 9 lead partners while serving as a liaison between students and faculty.',
   30
 );
-
--- ---- ADD YOUR DRUM TECHNICIAN ROLE HERE ---------------------------------
--- Fill in the blanks and uncomment. Keeping the same column shape as the
--- rows above is what makes it format identically on the site.
---
--- insert into public.experience (title, org, location, start_date, end_date, current, bullets, order_index) values
--- (
---   'Drum Technician',
---   'ORGANIZATION NAME',
---   'CITY, STATE',
---   'START', 'END', false,
---   'First bullet.
--- Second bullet.
--- Third bullet.',
---   40
--- );
 
 insert into public.experience (title, org, location, start_date, end_date, current, bullets, order_index) values
   (
