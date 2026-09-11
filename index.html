@@ -26,14 +26,17 @@
       </a>
     </div>
 
-    <nav class="tabs" aria-label="Portfolio sections">
-      <button class="tab is-active" data-target="home"><span class="tab-id">00</span>Home</button>
-      <button class="tab" data-target="experience"><span class="tab-id">01</span>Experience</button>
-      <button class="tab" data-target="projects"><span class="tab-id">02</span>Projects</button>
-      <button class="tab" data-target="research"><span class="tab-id">03</span>Research</button>
-      <button class="tab" data-target="awards"><span class="tab-id">04</span>Awards</button>
-      <button class="tab tab-resume" data-target="resume"><span class="tab-id">05</span>Résumé</button>
-    </nav>
+    <div class="tabs-wrap">
+      <nav class="tabs" id="tabs" aria-label="Portfolio sections">
+        <button class="tab is-active" data-target="home">Home</button>
+        <button class="tab" data-target="experience">Experience</button>
+        <button class="tab" data-target="projects">Projects</button>
+        <button class="tab" data-target="research">Research</button>
+        <button class="tab" data-target="awards">Awards</button>
+        <button class="tab tab-resume" data-target="resume">Résumé</button>
+      </nav>
+      <span class="tabs-hint" aria-hidden="true">›</span>
+    </div>
 
     <div class="rail-bottom">
       <div class="rail-status">
@@ -49,11 +52,13 @@
 
     <!-- HOME -->
     <section class="view is-active" id="home" data-view="home">
-      <p class="eyebrow">00 / Home</p>
+      <p class="eyebrow">Home</p>
 
       <div class="hero-grid">
         <div class="hero-copy">
-          <h1 class="hero-title">Building systems that makes work <em>much more </em>efficient</h1>
+          <!-- ===== EDIT YOUR HEADLINE HERE ===== -->
+          <h1 class="hero-title">Turning scattered information into systems people can actually <em>use</em></h1>
+          <!-- =================================== -->
           <p class="hero-sub" id="hero-tagline">Aspiring Business/Data Analyst</p>
           <div class="bio" id="bio-content"><!-- injected --></div>
           <div class="hero-actions">
@@ -77,41 +82,41 @@
 
     <!-- EXPERIENCE -->
     <section class="view" id="experience" data-view="experience">
-      <p class="eyebrow">01 / Experience</p>
+      <p class="eyebrow">Experience</p>
       <h2 class="view-title">Experience</h2>
-      <p class="view-lede">Leadership and work roles, most recent first.</p>
+      <p class="view-lede">Leadership and Work experiences.</p>
       <div class="record-list" id="experience-list"><!-- injected --></div>
     </section>
 
     <!-- PROJECTS -->
     <section class="view" id="projects" data-view="projects">
-      <p class="eyebrow">02 / Projects</p>
+      <p class="eyebrow">Projects</p>
       <h2 class="view-title">Projects</h2>
-      <p class="view-lede">Capstone work, and tools I built because I needed them — most are still in use.</p>
+      <p class="view-lede">Capstone work and System tools that I built. Some are still in use.</p>
       <div id="projects-groups"><!-- injected --></div>
     </section>
 
     <!-- RESEARCH -->
     <section class="view" id="research" data-view="research">
-      <p class="eyebrow">03 / Research</p>
+      <p class="eyebrow">Research</p>
       <h2 class="view-title">Research</h2>
-      <p class="view-lede">Where the critical-thinking habit started, and where I've put it to use.</p>
+      <p class="view-lede">Where I started to evolve my critical thinking skills.</p>
       <div class="record-list" id="research-list"><!-- injected --></div>
       <p class="research-footnote" id="research-footnote"><!-- injected --></p>
     </section>
 
     <!-- AWARDS -->
     <section class="view" id="awards" data-view="awards">
-      <p class="eyebrow">04 / Awards</p>
+      <p class="eyebrow">Awards</p>
       <h2 class="view-title">Honors &amp; Awards</h2>
       <div id="awards-groups"><!-- injected --></div>
     </section>
 
     <!-- RESUME -->
     <section class="view" id="resume" data-view="resume">
-      <p class="eyebrow">05 / Résumé</p>
+      <p class="eyebrow">Résumé</p>
       <h2 class="view-title">Résumé</h2>
-      <p class="view-lede" id="resume-updated">Current version, one click to download.</p>
+      <p class="view-lede" id="resume-updated">Current version.</p>
 
       <div class="resume-panel">
         <div class="resume-preview">
