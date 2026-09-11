@@ -1,20 +1,3 @@
--- =========================================================================
--- PORTFOLIO SCHEMA
--- Run this once in Supabase: Project -> SQL Editor -> New query -> paste
--- -> Run. Safe to re-run (drops and recreates these specific tables only).
---
--- Design notes:
--- - Multi-line fields (bio, bullets, personal_intro) are stored as plain
---   TEXT with real line breaks, not Postgres arrays. That's on purpose:
---   editing a text box with line breaks in the Supabase Table Editor is
---   far easier than editing an array/jsonb cell. The site splits these
---   into lists automatically (js/app.js).
--- - "tags" on projects is a comma-separated TEXT for the same reason.
--- - order_index controls display order within each table — lower shows
---   first. Leave gaps (10, 20, 30...) if you want room to insert between
---   rows later without renumbering everything.
--- =========================================================================
-
 -- ---- profile (single row) ------------------------------------------------
 drop table if exists public.profile cascade;
 create table public.profile (
@@ -25,9 +8,9 @@ create table public.profile (
   email             text,
   linkedin_url      text,
   github_url        text,
-  resume_updated    text,          -- e.g. "2026" or "August 2026"
+  resume_updated    text,          -- e.g. "September 10, 2026"
+  photo_url         text,          -- e.g. "assets/photo.jpg" — shown on the Home tab
   bio               text,          -- paragraphs separated by a blank line
-  personal_intro    text,          -- shown at the top of the Personal tab
   constraint single_row check (id = 1)
 );
 
@@ -37,9 +20,9 @@ create table public.education (
   id           bigint generated always as identity primary key,
   institution  text not null,
   degree       text,
-  note         text,               -- e.g. "GPA 4.0" or "Full-ride scholarship"
-  start_date   text,               -- free text: "Aug 2023"
-  end_date     text,               -- free text: "May 2025" or "Expected May 2027"
+  note         text,               -- e.g. "GPA 3.9"
+  start_date   text,               -- free text: "Aug 2023" (leave blank to show end_date alone)
+  end_date     text,               -- free text: "Expected Dec 2027" or "Earned"
   order_index  int not null default 0
 );
 
@@ -47,7 +30,7 @@ create table public.education (
 drop table if exists public.skills cascade;
 create table public.skills (
   id           bigint generated always as identity primary key,
-  category     text not null,      -- "Technical" | "Language" | "Professional" | your own
+  category     text not null,      -- "Language" | "Data & Analytics" | "Tools" | "Professional"
   item         text not null,
   order_index  int not null default 0
 );
@@ -66,16 +49,20 @@ create table public.experience (
   order_index  int not null default 0
 );
 
--- ---- projects (work + personal, split by category) ----------------------
+-- ---- projects (capstone + technical, split by subgroup) -----------------
 drop table if exists public.projects cascade;
 create table public.projects (
   id           bigint generated always as identity primary key,
   title        text not null,
+  org          text,               -- optional: institution or client
+  date_range   text,               -- optional: e.g. "Sept 2025 – Nov 2025"
   description  text,
   link_url     text,
   link_label   text,
   tags         text,               -- comma-separated: "Web app, CSV export"
-  category     text not null default 'work',  -- 'work' -> Projects tab, 'personal' -> Personal tab
+  image_urls   text,               -- comma-separated paths: "assets/a.jpg, assets/b.jpg"
+  subgroup     text not null default 'technical',  -- 'capstone' | 'technical'
+  category     text not null default 'work',
   order_index  int not null default 0
 );
 
@@ -84,10 +71,13 @@ drop table if exists public.research cascade;
 create table public.research (
   id           bigint generated always as identity primary key,
   title        text not null,
-  org          text,
-  date_range   text,
-  description  text,
-  bullets      text,               -- one bullet per line, optional
+  course       text,               -- e.g. "HISTH 1302: U.S. History II Honors"
+  semester     text,               -- e.g. "Fall 2023"
+  org          text,               -- e.g. "Lone Star College-CyFair, Honors College"
+  date_range   text,               -- optional, unused by default
+  description  text,               -- the paper's abstract
+  bullets      text,               -- one per line: conference presentations, selections
+  paper_url    text,               -- e.g. "assets/research/my-paper.pdf"
   order_index  int not null default 0
 );
 
@@ -98,6 +88,7 @@ create table public.awards (
   title        text not null,
   org          text,
   term         text,               -- e.g. "Spring 2026"
+  group_label  text not null default 'College',  -- 'College' | 'High School'
   order_index  int not null default 0
 );
 
