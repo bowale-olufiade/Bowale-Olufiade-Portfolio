@@ -16,7 +16,7 @@ const DEFAULT_DATA = {
     tagline: "Management Information Systems student · University of Houston",
     location: "Houston, Texas",
     email: "olufiadeolabowale@gmail.com",
-    linkedin_url: "https://www.linkedin.com/in/olabowale-olufiade",
+    linkedin_url: "https://www.linkedin.com/in/bowale-olufiade",
     github_url: "https://github.com/bowale-olufiade",
     resume_updated: "2026",
     bio: [
