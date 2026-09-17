@@ -49,7 +49,7 @@ const DEFAULT_DATA = {
     { category: "Language", items: ["SQL (Oracle, DBeaver)", "JavaScript (NetBeans)", "HTML & CSS"] },
     { category: "Data & Analytics", items: ["Tableau", "Power BI (DAX, Power Query, API)", "Excel (PivotTables, Charts)"] },
     { category: "Tools", items: ["Microsoft Office Suite", "Supabase / Postgres", "GitHub"] },
-    { category: "Professional", items: ["Data Analysis", "Research", "Problem-Solving", "Time Management", "Leadership", "Organization"] }
+    { category: "Professional", items: ["Research", "Problem-Solving", "Time Management", "Leadership", "Organization"] }
   ],
 
   experience: [
@@ -177,10 +177,13 @@ const DEFAULT_DATA = {
   ],
 
   awards: [
-    { title: "C.T. Bauer College of Business President's List", org: "University of Houston", term: "Spring 2026" },
-    { title: "C.T. Bauer College of Business Dean's List", org: "University of Houston", term: "Fall 2025" },
-    { title: "Transfer Excellence Scholarship Award", org: "University of Houston", term: "Spring 2025" },
-    { title: "President's List", org: "Lone Star College–CyFair", term: "Fall 2024" },
-    { title: "Honors Chancellor Fellows Scholarship Award", org: "Lone Star College", term: "Fall 2023" }
+    { title: "Spring 2026 Dean's List", org: "University of Houston", term: "", group_label: "College" },
+    { title: "Fall 2025 Dean's List", org: "University of Houston", term: "", group_label: "College" },
+    { title: "Transfer Excellence Scholarship", org: "University of Houston", term: "", group_label: "College" },
+    { title: "Jim Brown Political Science Scholar Award", org: "Lone Star College-CyFair", term: "", group_label: "College" },
+    { title: "Spring 2025 President's List", org: "Lone Star College-CyFair", term: "", group_label: "College" },
+    { title: "Honors Chancellor Fellows", org: "Lone Star College", term: "", group_label: "College" },
+    { title: "Distinguished Honor Roll", org: "Cypress Park High School — Top 10% of class", term: "", group_label: "High School" },
+    { title: "Most Outstanding Percussionist", org: "CyPark Marching Band", term: "", group_label: "High School" }
   ]
 };
