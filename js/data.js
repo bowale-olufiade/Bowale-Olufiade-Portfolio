@@ -18,7 +18,7 @@ const DEFAULT_DATA = {
     email: "olufiadeolabowale@gmail.com",
     linkedin_url: "https://www.linkedin.com/in/bowale-olufiade",
     github_url: "https://github.com/bowale-olufiade",
-    resume_updated: "2026",
+    resume_updated: "September 2026",
     bio: [
       "I'm a Management Information Systems student at the University of Houston's C.T. Bauer College of Business, and I care about data — finding it, cleaning it, and using it to think more clearly about a problem. I originally set out to become an accountant, but I started paying closer attention to how fast AI was reshaping business, and I wanted a career that would grow alongside it instead of being replaced by it. MIS let me stay in business while building the technical and analytical side that field is going to need.",
       "My path started at Lone Star College, where a full-ride Honors College scholarship let me dig into research the way I wanted to — past the surface-level answer, into the why behind it. As an Honors Lead, I was juggling my own coursework, workshops, and mentoring at the same time, and being new to college, I needed a system to keep it all straight. That need is what got me building trackers and small tools in the first place — and it hasn't stopped since."
@@ -30,24 +30,25 @@ const DEFAULT_DATA = {
 
   education: [
     {
-      institution: "C.T. Bauer College of Business, University of Houston",
-      degree: "B.A., Management Information Systems",
-      note: "GPA 4.0",
-      start_date: "2025",
-      end_date: "Expected May 2027"
+      institution: "University of Houston",
+      degree: "BBA in Management Information Systems",
+      note: "GPA 3.9",
+      start_date: "Aug 2025",
+      end_date: "Expected Dec 2027"
     },
     {
-      institution: "Honors College at Lone Star College–CyFair",
-      degree: "Honors Associate of Arts, Business Administration",
-      note: "Full-ride scholarship",
-      start_date: "Aug 2023",
-      end_date: "May 2025"
+      institution: "Lone Star College-CyFair",
+      degree: "Associate of Arts in Business Administration with Honors",
+      note: "GPA 3.7",
+      start_date: "",
+      end_date: "Earned"
     }
   ],
 
   skills: [
-    { category: "Technical", items: ["Excel (Data Analysis, PivotTables)", "Access", "Word", "PowerPoint"] },
-    { category: "Language", items: ["SQL (Oracle & MySQL)", "DBeaver"] },
+    { category: "Language", items: ["SQL (Oracle, DBeaver)", "JavaScript (NetBeans)", "HTML & CSS"] },
+    { category: "Data & Analytics", items: ["Tableau", "Power BI (DAX, Power Query, API)", "Excel (PivotTables, Charts)"] },
+    { category: "Tools", items: ["Microsoft Office Suite", "Supabase / Postgres", "GitHub"] },
     { category: "Professional", items: ["Data Analysis", "Research", "Problem-Solving", "Time Management", "Leadership", "Organization"] }
   ],
 
@@ -56,13 +57,26 @@ const DEFAULT_DATA = {
       title: "Vice President of Administration",
       org: "University of Houston, Residence Hall Association (RHA)",
       location: "Houston, TX",
-      start_date: "Aug 2026",
+      start_date: "Apr 2026",
       end_date: "Dec 2027",
       current: true,
       bullets: [
         "Streamlined General Assembly processes by organizing agendas, legislation, and communications, enhancing meeting efficiency and participation across Hall Councils.",
         "Managed and maintained centralized records — minutes, attendance, legislation — ensuring data accuracy, accessibility, and organizational continuity.",
-        "Facilitated cross-functional communication between RHA, campus departments, and student organizations while supporting executive decision-making and leadership operations."
+        "Serve as liaison between RHA, campus departments, and student organizations, supporting executive decision-making and coordinating leadership operations across 49 hall council members."
+      ]
+    },
+    {
+      title: "Cashier",
+      org: "Wazobia Market",
+      location: "Houston, TX",
+      start_date: "Jan 2026",
+      end_date: "",
+      current: true,
+      bullets: [
+        "Process 100–150 transactions per shift totaling approximately $10,000 in daily sales across produce, packaged, and mixed taxable/non-taxable orders, operating POS and credit authorization systems during peak store hours.",
+        "Resolve customer returns, pricing disputes, and escalated complaints independently at the register; apply daily price changes and promotional pricing by processing customer loyalty point redemptions to ensure accurate order totals.",
+        "Maintain sole custody of a cash drawer handling up to $1,000 in cash tenders per shift, reconciling open and close counts with zero cash shortages while applying manual rounding adjustments to prevent cumulative drawer drifting."
       ]
     },
     {
@@ -73,9 +87,9 @@ const DEFAULT_DATA = {
       end_date: "Apr 2026",
       current: false,
       bullets: [
-        "Coordinated and documented hall council meetings, events, and initiatives to ensure smooth operations.",
-        "Oversaw event planning logistics, including budgeting, scheduling, and resource allocation.",
-        "Maintained organized records, reports, and photo documentation for all residence hall activities."
+        "Coordinated and documented 30+ hall council meetings, events, and initiatives to ensure consistent operations.",
+        "Oversaw event planning logistics, including budgeting, scheduling, and resource allocation for 14+ residence hall events.",
+        "Maintained organized records, reports, and photo documentation for all residence hall activities, creating a reusable archive for future councils."
       ]
     },
     {
@@ -87,7 +101,7 @@ const DEFAULT_DATA = {
       current: false,
       bullets: [
         "Hosted 15+ student-led workshops and forums focused on student development and engagement.",
-        "Mentored peers and apprentices while promoting student engagement.",
+        "Mentored peer apprentices, strengthening their leadership skills and engagement with the program.",
         "Worked alongside 9 lead partners while serving as a liaison between students and faculty."
       ]
     },
@@ -125,10 +139,10 @@ const DEFAULT_DATA = {
     },
     {
       title: "Office Hours Tracker",
-      description: "As Vice President of the Residence Hall Association, exec members are required to log a set number of office hours each week, and the president needed a way to actually track that. I designed and built a web app that works like a time punch — members check in and out during office hours. I added a PIN so each member has to enter their own code (no one can check in or out for someone else), plus a CSV export for weeks that need manual correction.",
+      description: "As Vice President of the Residence Hall Association, exec members are required to log a set number of office hours each week, and the president needed a way to actually track that. I designed and built a web app that works like a time punch — 11 exec board members across 9 positions check in and out during office hours, replacing a manual spreadsheet. I added a PIN so each member has to enter their own code (no one can check in or out for someone else), plus a CSV export for weeks that need manual correction. Behind it is a Postgres database on Supabase with security-definer functions, bcrypt-hashed PINs, and row-level security, so the site can read hours but nobody can write to the table directly.",
       link_url: "https://bowale-olufiade.github.io/RHA-Office-Hours/",
       link_label: "Open web app",
-      tags: ["Web app", "CSV export", "PIN auth"],
+      tags: ["Web app", "Supabase / Postgres", "Row-level security", "CSV export"],
       category: "work"
     },
     {
@@ -148,9 +162,9 @@ const DEFAULT_DATA = {
       date_range: "Sept 2025 – Nov 2025",
       description: "",
       bullets: [
-        "Partnered with the SAiD Institute, a nonprofit promoting African Diaspora art and culture.",
-        "Collaborated with five other Bauer students to develop a sustainable organizational framework.",
-        "Conducted research on funding strategies and long-term planning to enhance community impact."
+        "Designed SAiD Institute's year-long organizational structure, creating quarterly cycles for programming, grant applications, donor engagement, and partnership outreach to address inconsistent funding and limited community engagement.",
+        "Conducted research on sustainability models used by cultural nonprofits, developing recommendations such as educational workshops, art showcases, book clubs, and membership-based revenue streams to strengthen long-term resilience.",
+        "Collaborated with a cross-functional Bauer team to build a strategic framework integrating funding pipelines, partnership development, digital engagement strategies, and impact-tracking systems for SAiD's growth."
       ]
     },
     {
