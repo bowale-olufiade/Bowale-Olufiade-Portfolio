@@ -1,14 +1,3 @@
-/**
- * FALLBACK DATA
- * -----------------------------------------------------------------------
- * This is what renders when Supabase isn't configured yet, or if a fetch
- * to it ever fails — the site should never show a blank page to a
- * visitor. Shape matches the Supabase tables field-for-field, so once
- * you're pulling from the database this file just becomes a backup.
- * Edit it directly any time for a quick local change, or treat
- * supabase/seed.sql as the source of truth once you're set up.
- * -----------------------------------------------------------------------
- */
 const DEFAULT_DATA = {
 
   profile: {
