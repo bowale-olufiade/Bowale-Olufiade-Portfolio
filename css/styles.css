@@ -455,6 +455,8 @@ body::before{
   display: block;
 }
 .record-shots--single .shot{ width: 100%; max-width: 340px; }
+/* Portrait group photo: centre the thumbnail on faces, not the ceiling */
+.shot img[src$="capstone-said-2.jpg"]{ object-position: center 62%; }
 
 @media (max-width: 560px){
   .shot{ width: 100%; max-width: none; }
