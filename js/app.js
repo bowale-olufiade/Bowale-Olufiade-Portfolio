@@ -1,4 +1,3 @@
-
 let sb = null;
 if (typeof window.supabase !== "undefined" && IS_SUPABASE_CONFIGURED) {
   sb = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
@@ -211,6 +210,23 @@ function shotsMarkup(images, title) {
   `).join("")}</div>`;
 }
 
+/**
+ * Inline slide-deck viewer for a project (e.g. a capstone's final presentation).
+ * Reuses the same PDF.js viewer as the research papers; only the button text differs.
+ */
+function deckMarkup(r, tag) {
+  if (!r.deck_url) return "";
+  const id = `deck-${String(tag).toLowerCase()}`;
+  const label = r.deck_label || "View the presentation";
+  return `
+    <button class="paper-toggle" data-paper="${esc(r.deck_url)}" data-viewer="${id}" aria-expanded="false"
+            data-label-open="Close presentation" data-label-closed="${esc(label)}">
+      <span class="chev">+</span><span class="paper-toggle-text">${esc(label)}</span>
+    </button>
+    <div class="paper-viewer" id="${id}" hidden></div>
+  `;
+}
+
 function projectCard(r, tag) {
   return `
     <article class="record">
@@ -226,6 +242,7 @@ function projectCard(r, tag) {
         ${r.description ? `<p class="record-desc">${esc(r.description)}</p>` : ""}
         ${r.tags && r.tags.length ? `<div class="record-tags">${r.tags.map(t => `<span class="record-tag">${esc(t)}</span>`).join("")}</div>` : ""}
         ${shotsMarkup(r.image_urls, r.title)}
+        ${deckMarkup(r, tag)}
         ${r.link_url ? `<a class="record-link" href="${esc(r.link_url)}" target="_blank" rel="noopener">${esc(r.link_label || "View")} ↗</a>` : ""}
       </div>
     </article>
@@ -423,7 +440,7 @@ async function openPaper(viewer, url) {
   try {
     pdfjsLib = await loadPdfJs();
   } catch (err) {
-    viewer.innerHTML = `<p class="paper-loading">The preview couldn't load. <a href="${url}" target="_blank" rel="noopener">Open the paper in a new tab</a> instead.</p>`;
+    viewer.innerHTML = `<p class="paper-loading">The preview couldn't load. <a href="${url}" target="_blank" rel="noopener">Open it in a new tab</a> instead.</p>`;
     return;
   }
 
@@ -431,7 +448,7 @@ async function openPaper(viewer, url) {
   try {
     pdf = await pdfjsLib.getDocument(url).promise;
   } catch (err) {
-    viewer.innerHTML = `<p class="paper-loading">The preview couldn't load. <a href="${url}" target="_blank" rel="noopener">Open the paper in a new tab</a> instead.</p>`;
+    viewer.innerHTML = `<p class="paper-loading">The preview couldn't load. <a href="${url}" target="_blank" rel="noopener">Open it in a new tab</a> instead.</p>`;
     return;
   }
 
@@ -490,7 +507,9 @@ function initPaperViewers() {
 
     btn.setAttribute("aria-expanded", String(opening));
     btn.querySelector(".chev").textContent = opening ? "−" : "+";
-    btn.querySelector(".paper-toggle-text").textContent = opening ? "Close paper" : "Read the paper";
+    btn.querySelector(".paper-toggle-text").textContent = opening
+      ? (btn.dataset.labelOpen || "Close paper")
+      : (btn.dataset.labelClosed || "Read the paper");
   });
 }
 
